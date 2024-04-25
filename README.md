@@ -93,6 +93,10 @@ puts decoded_token
 * HS512 - HMAC using SHA-512 hash algorithm
 
 ```ruby
+require 'jwt'
+
+payload = { data: 'test' }
+
 # The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
 hmac_secret = 'my$ecretK3y'
 
@@ -118,6 +122,10 @@ puts decoded_token
 * RS512 - RSA using SHA-512 hash algorithm
 
 ```ruby
+require 'jwt'
+
+payload = { data: 'test' }
+
 rsa_private = OpenSSL::PKey::RSA.generate 2048
 rsa_public = rsa_private.public_key
 
@@ -144,6 +152,10 @@ puts decoded_token
 * ES256K - ECDSA using P-256K and SHA-256
 
 ```ruby
+require 'jwt'
+
+payload = { data: 'test' }
+
 ecdsa_key = OpenSSL::PKey::EC.generate('prime256v1')
 
 token = JWT.encode payload, ecdsa_key, 'ES256'
@@ -155,7 +167,7 @@ decoded_token = JWT.decode token, ecdsa_key, true, { algorithm: 'ES256' }
 
 # Array
 # [
-#    {"test"=>"data"}, # payload
+#    {"data"=>"test"}, # payload
 #    {"alg"=>"ES256"} # header
 # ]
 puts decoded_token
@@ -174,6 +186,11 @@ For more detailed installation instruction check the official [repository](https
 * ED25519
 
 ```ruby
+require 'jwt'
+require 'rbnacl'
+
+payload = { data: 'test' }
+
 private_key = RbNaCl::Signatures::Ed25519::SigningKey.new('abcdefghijklmnopqrstuvwxyzABCDEF')
 public_key = private_key.verify_key
 token = JWT.encode payload, private_key, 'ED25519'
@@ -182,20 +199,21 @@ token = JWT.encode payload, private_key, 'ED25519'
 puts token
 
 decoded_token = JWT.decode token, public_key, true, { algorithm: 'ED25519' }
+
 # Array
 # [
-#  {"test"=>"data"}, # payload
+#  {"data"=>"test"}, # payload
 #  {"alg"=>"ED25519"} # header
 # ]
-
+puts decoded_token
 ```
 
 ### **RSASSA-PSS**
 
-In order to use this algorithm you need to add the `openssl` gem to your `Gemfile` with a version greater or equal to `2.1`.
+In order to use this algorithm you need to add the `openssl` gem to your `Gemfile` with a version greater or equal to `2.2`.
 
 ```ruby
-gem 'openssl', '~> 2.1'
+gem 'openssl', '~> 2.2'
 ```
 
 * PS256 - RSASSA-PSS using SHA-256 hash algorithm
@@ -203,6 +221,10 @@ gem 'openssl', '~> 2.1'
 * PS512 - RSASSA-PSS using SHA-512 hash algorithm
 
 ```ruby
+require 'jwt'
+
+payload = { data: 'test' }
+
 rsa_private = OpenSSL::PKey::RSA.generate 2048
 rsa_public = rsa_private.public_key
 
@@ -226,6 +248,8 @@ puts decoded_token
 An object implementing custom signing or verification behaviour can be passed in the `algorithm` option when encoding and decoding. The given object needs to implement the method `valid_alg?` and `verify` and/or `alg` and `sign`, depending if object is used for encoding or decoding.
 
 ```ruby
+require 'jwt'
+
 module CustomHS512Algorithm
   def self.alg
     'HS512'
@@ -244,8 +268,16 @@ module CustomHS512Algorithm
   end
 end
 
-token = ::JWT.encode({'pay' => 'load'}, 'secret', CustomHS512Algorithm)
+token = ::JWT.encode({'data' => 'test'}, 'secret', CustomHS512Algorithm)
+
+# eyJhbGciOiJIUzUxMiJ9.eyJkYXRhIjoidGVzdCJ9.za8yp5GmmEFOZVTQ7phx7etoyAOXwueHubzZsRqqGZ5h_rM7DVH7vlTnILRXgas6ZpTowCILjN0Mej9QlFzbHA
+puts token
+
 payload, header = ::JWT.decode(token, 'secret', true, algorithm: CustomHS512Algorithm)
+
+# {"data"=>"test"} # payload
+# {"alg"=>"HS512"} # header
+puts payload, header
 ```
 
 ## Support for reserved claim names
@@ -301,15 +333,23 @@ From [Oauth JSON Web Token 4.1.4. "exp" (Expiration Time) Claim](https://tools.i
 **Handle Expiration Claim**
 
 ```ruby
+require 'jwt'
+
 exp = Time.now.to_i + 4 * 3600
 exp_payload = { data: 'data', exp: exp }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 token = JWT.encode exp_payload, hmac_secret, 'HS256'
 
+puts token
+
 begin
   decoded_token = JWT.decode token, hmac_secret, true, { algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::ExpiredSignature
   # Handle expired token, e.g. logout user or deny access
+  puts 'Token has expired'
 end
 ```
 
@@ -322,19 +362,27 @@ JWT.decode token, hmac_secret, true, { verify_expiration: false, algorithm: 'HS2
 **Adding Leeway**
 
 ```ruby
+require 'jwt'
+
 exp = Time.now.to_i - 10
 leeway = 30 # seconds
 
 exp_payload = { data: 'data', exp: exp }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 # build expired token
 token = JWT.encode exp_payload, hmac_secret, 'HS256'
 
+puts token
+
 begin
   # add leeway to ensure the token is still accepted
   decoded_token = JWT.decode token, hmac_secret, true, { exp_leeway: leeway, algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::ExpiredSignature
   # Handle expired token, e.g. logout user or deny access
+  puts 'Token has expired'
 end
 ```
 
@@ -347,15 +395,23 @@ From [Oauth JSON Web Token 4.1.5. "nbf" (Not Before) Claim](https://tools.ietf.o
 **Handle Not Before Claim**
 
 ```ruby
+require 'jwt'
+
 nbf = Time.now.to_i - 3600
 nbf_payload = { data: 'data', nbf: nbf }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 token = JWT.encode nbf_payload, hmac_secret, 'HS256'
 
+puts token
+
 begin
   decoded_token = JWT.decode token, hmac_secret, true, { algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::ImmatureSignature
   # Handle invalid token, e.g. logout user or deny access
+  puts 'Token is invalid'
 end
 ```
 
@@ -368,19 +424,27 @@ JWT.decode token, hmac_secret, true, { verify_not_before: false, algorithm: 'HS2
 **Adding Leeway**
 
 ```ruby
+require 'jwt'
+
 nbf = Time.now.to_i + 10
 leeway = 30
 
 nbf_payload = { data: 'data', nbf: nbf }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 # build expired token
 token = JWT.encode nbf_payload, hmac_secret, 'HS256'
 
+puts token
+
 begin
   # add leeway to ensure the token is valid
   decoded_token = JWT.decode token, hmac_secret, true, { nbf_leeway: leeway, algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::ImmatureSignature
   # Handle invalid token, e.g. logout user or deny access
+  puts 'Token is invalid'
 end
 ```
 
@@ -393,16 +457,24 @@ From [Oauth JSON Web Token 4.1.1. "iss" (Issuer) Claim](https://tools.ietf.org/h
 You can pass multiple allowed issuers as an Array, verification will pass if one of them matches the `iss` value in the payload.
 
 ```ruby
+require 'jwt'
+
 iss = 'My Awesome Company Inc. or https://my.awesome.website/'
 iss_payload = { data: 'data', iss: iss }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 token = JWT.encode iss_payload, hmac_secret, 'HS256'
+
+puts token
 
 begin
   # Add iss to the validation to check if the token has been manipulated
   decoded_token = JWT.decode token, hmac_secret, true, { iss: iss, verify_iss: true, algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::InvalidIssuerError
   # Handle invalid token, e.g. logout user or deny access
+  puts 'Token is invalid'
 end
 ```
 
@@ -443,14 +515,21 @@ From [Oauth JSON Web Token 4.1.3. "aud" (Audience) Claim](https://tools.ietf.org
 > The `aud` (audience) claim identifies the recipients that the JWT is intended for. Each principal intended to process the JWT MUST identify itself with a value in the audience claim. If the principal processing the claim does not identify itself with a value in the `aud` claim when this claim is present, then the JWT MUST be rejected. In the general case, the `aud` value is an array of case-sensitive strings, each containing a ***StringOrURI*** value. In the special case when the JWT has one audience, the `aud` value MAY be a single case-sensitive string containing a ***StringOrURI*** value. The interpretation of audience values is generally application specific. Use of this claim is OPTIONAL.
 
 ```ruby
+require 'jwt'
+
 aud = ['Young', 'Old']
 aud_payload = { data: 'data', aud: aud }
+# The secret must be a string. With OpenSSL 3.0/openssl gem `<3.0.1`, JWT::DecodeError will be raised if it isn't provided.
+hmac_secret = 'my$ecretK3y'
 
 token = JWT.encode aud_payload, hmac_secret, 'HS256'
+
+puts token
 
 begin
   # Add aud to the validation to check if the token has been manipulated
   decoded_token = JWT.decode token, hmac_secret, true, { aud: aud, verify_aud: true, algorithm: 'HS256' }
+  puts decoded_token
 rescue JWT::InvalidAudError
   # Handle invalid token, e.g. logout user or deny access
   puts 'Audience Error'
