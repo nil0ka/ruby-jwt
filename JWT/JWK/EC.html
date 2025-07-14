@@ -175,6 +175,11 @@
 
 
 
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="KeyBase.html" title="JWT::JWK::KeyBase (class)">KeyBase</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="KeyBase.html#parameters-instance_method" title="JWT::JWK::KeyBase#parameters (method)">#parameters</a></span></p>
+
 
   
     <h2>
@@ -303,6 +308,28 @@
     <span class="summary_desc"><div class='inline'>
 <p>A new instance of EC.</p>
 </div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#jwa-instance_method" title="#jwa (instance method)">#<strong>jwa</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
   
 </li>
 
@@ -474,7 +501,7 @@
   
   
   <h3 class="inherited">Methods inherited from <span class='object_link'><a href="KeyBase.html" title="JWT::JWK::KeyBase (class)">KeyBase</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="KeyBase.html#<=>-instance_method" title="JWT::JWK::KeyBase#&lt;=&gt; (method)">#<=></a></span>, <span class='object_link'><a href="KeyBase.html#==-instance_method" title="JWT::JWK::KeyBase#== (method)">#==</a></span>, <span class='object_link'><a href="KeyBase.html#[]-instance_method" title="JWT::JWK::KeyBase#[] (method)">#[]</a></span>, <span class='object_link'><a href="KeyBase.html#hash-instance_method" title="JWT::JWK::KeyBase#hash (method)">#hash</a></span>, <span class='object_link'><a href="KeyBase.html#kid-instance_method" title="JWT::JWK::KeyBase#kid (method)">#kid</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="KeyBase.html#<=>-instance_method" title="JWT::JWK::KeyBase#&lt;=&gt; (method)">#<=></a></span>, <span class='object_link'><a href="KeyBase.html#==-instance_method" title="JWT::JWK::KeyBase#== (method)">#==</a></span>, <span class='object_link'><a href="KeyBase.html#[]-instance_method" title="JWT::JWK::KeyBase#[] (method)">#[]</a></span>, <span class='object_link'><a href="KeyBase.html#hash-instance_method" title="JWT::JWK::KeyBase#hash (method)">#hash</a></span>, <span class='object_link'><a href="KeyBase.html#kid-instance_method" title="JWT::JWK::KeyBase#kid (method)">#kid</a></span>, <span class='object_link'><a href="KeyBase.html#sign-instance_method" title="JWT::JWK::KeyBase#sign (method)">#sign</a></span>, <span class='object_link'><a href="KeyBase.html#verify-instance_method" title="JWT::JWK::KeyBase#verify (method)">#verify</a></span></p>
 <div id="constructor_details" class="method_details_list">
   <h2>Constructor Details</h2>
   
@@ -561,12 +588,12 @@
       <pre class="lines">
 
 
-227
-228
-229</pre>
+221
+222
+223</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jwt/jwk/ec.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/jwt/jwk/ec.rb', line 221</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_import'>import</span><span class='lparen'>(</span><span class='id identifier rubyid_jwk_data'>jwk_data</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_jwk_data'>jwk_data</span><span class='rparen'>)</span>
@@ -591,21 +618,21 @@
       <pre class="lines">
 
 
+225
+226
+227
+228
+229
+230
 231
 232
 233
 234
 235
-236
-237
-238
-239
-240
-241
-242</pre>
+236</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jwt/jwk/ec.rb', line 231</span>
+      <pre class="code"><span class="info file"># File 'lib/jwt/jwk/ec.rb', line 225</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_openssl_curve'>to_openssl_curve</span><span class='lparen'>(</span><span class='id identifier rubyid_crv'>crv</span><span class='rparen'>)</span>
   <span class='comment'># The JWK specs and OpenSSL use different names for the same curves.
@@ -714,6 +741,42 @@
   <span class='id identifier rubyid_exported'>exported</span> <span class='op'>=</span> <span class='id identifier rubyid_parameters'>parameters</span><span class='period'>.</span><span class='id identifier rubyid_clone'>clone</span>
   <span class='id identifier rubyid_exported'>exported</span><span class='period'>.</span><span class='id identifier rubyid_reject!'>reject!</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid__'>_</span><span class='op'>|</span> <span class='const'><span class='object_link'><a href="#EC_PRIVATE_KEY_ELEMENTS-constant" title="JWT::JWK::EC::EC_PRIVATE_KEY_ELEMENTS (constant)">EC_PRIVATE_KEY_ELEMENTS</a></span></span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span> <span class='id identifier rubyid_k'>k</span> <span class='rbrace'>}</span> <span class='kw'>unless</span> <span class='id identifier rubyid_private?'>private?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:include_private</span><span class='rbracket'>]</span> <span class='op'>==</span> <span class='kw'>true</span>
   <span class='id identifier rubyid_exported'>exported</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="jwa-instance_method">
+  
+    #<strong>jwa</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+74
+75
+76
+77
+78
+79</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jwt/jwk/ec.rb', line 74</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_jwa'>jwa</span>
+  <span class='kw'>return</span> <span class='kw'>super</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:alg</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_curve_name'>curve_name</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='period'>.</span><span class='id identifier rubyid_to_openssl_curve'>to_openssl_curve</span><span class='lparen'>(</span><span class='kw'>self</span><span class='lbracket'>[</span><span class='symbol'>:crv</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../JWA.html" title="JWT::JWA (module)">JWA</a></span></span><span class='period'>.</span><span class='id identifier rubyid_resolve'><span class='object_link'><a href="../JWA.html#resolve-class_method" title="JWT::JWA.resolve (method)">resolve</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="../JWA.html" title="JWT::JWA (module)">JWA</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../JWA/Ecdsa.html" title="JWT::JWA::Ecdsa (class)">Ecdsa</a></span></span><span class='period'>.</span><span class='id identifier rubyid_curve_by_name'><span class='object_link'><a href="../JWA/Ecdsa.html#curve_by_name-class_method" title="JWT::JWA::Ecdsa.curve_by_name (method)">curve_by_name</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_curve_name'>curve_name</span><span class='rparen'>)</span><span class='lbracket'>[</span><span class='symbol'>:algorithm</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -963,9 +1026,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu May  1 16:21:28 2025 by
+  Generated on Mon Jul 14 13:11:18 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.3).
+  0.9.37 (ruby-3.4.4).
 </div>
 
     </div>

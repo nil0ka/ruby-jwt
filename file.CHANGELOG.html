@@ -59,9 +59,44 @@
 
       <div id="content"><div id='filecontents'><h1 id="changelog">Changelog</h1>
 
-<h2 id="v3-0-0-next"><a href="https://github.com/jwt/ruby-jwt/tree/v3.0.0">v3.0.0</a> (NEXT)</h2>
+<h2 id="v3-1-2-2025-06-28"><a href="https://github.com/jwt/ruby-jwt/tree/v3.1.2">v3.1.2</a> (2025-06-28)</h2>
 
-<p><a href="https://github.com/jwt/ruby-jwt/compare/v2.10.1...main">Full Changelog</a></p>
+<p><a href="https://github.com/jwt/ruby-jwt/compare/v3.1.1...v3.1.2">Full Changelog</a></p>
+
+<p><strong>Fixes and enhancements:</strong></p>
+
+<ul>
+<li>Avoid using the same digest across calls in JWT::JWA::Ecdsa and JWT::JWA::Rsa <a href="https://github.com/jwt/ruby-jwt/pull/697">#697</a></li>
+<li>Fix signing with a EC JWK <a href="https://github.com/jwt/ruby-jwt/pull/699">#699</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+</ul>
+
+<h2 id="v3-1-1-2025-06-24"><a href="https://github.com/jwt/ruby-jwt/tree/v3.1.1">v3.1.1</a> (2025-06-24)</h2>
+
+<p><a href="https://github.com/jwt/ruby-jwt/compare/v3.1.0...v3.1.1">Full Changelog</a></p>
+
+<p><strong>Fixes and enhancements:</strong></p>
+
+<ul>
+<li>Require the algorithm to be provided when signing and verifying tokens using JWKs <a href="https://github.com/jwt/ruby-jwt/pull/695">#695</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+</ul>
+
+<h2 id="v3-1-0-2025-06-23"><a href="https://github.com/jwt/ruby-jwt/tree/v3.1.0">v3.1.0</a> (2025-06-23)</h2>
+
+<p><a href="https://github.com/jwt/ruby-jwt/compare/v3.0.0...v3.1.0">Full Changelog</a></p>
+
+<p><strong>Features:</strong></p>
+
+<ul>
+<li>Add support for x5t header parameter for X.509 certificate thumbprint verification <a href="https://github.com/jwt/ruby-jwt/pull/669">#669</a> (<a href="https://github.com/hieuk09">@hieuk09</a>)</li>
+<li>Raise an error if the ECDSA signing or verification key is not an instance of <code>OpenSSL::PKey::EC</code> <a href="https://github.com/jwt/ruby-jwt/pull/688">#688</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+<li>Allow <code>OpenSSL::PKey::EC::Point</code> to be used as the verification key in ECDSA <a href="https://github.com/jwt/ruby-jwt/pull/689">#689</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+<li>Require claims to have been verified before accessing the <code>JWT::EncodedToken#payload</code> <a href="https://github.com/jwt/ruby-jwt/pull/690">#690</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+<li>Support signing and verifying tokens using a JWK <a href="https://github.com/jwt/ruby-jwt/pull/692">#692</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
+</ul>
+
+<h2 id="v3-0-0-2025-06-14"><a href="https://github.com/jwt/ruby-jwt/tree/v3.0.0">v3.0.0</a> (2025-06-14)</h2>
+
+<p><a href="https://github.com/jwt/ruby-jwt/compare/v2.10.1...v3.0.0">Full Changelog</a></p>
 
 <p><strong>Breaking changes:</strong></p>
 
@@ -84,7 +119,6 @@
 <li>JWT::EncodedToken#verify! method that bundles signature and claim validation <a href="https://github.com/jwt/ruby-jwt/pull/647">#647</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
 <li>Do not override the alg header if already given <a href="https://github.com/jwt/ruby-jwt/pull/659">#659</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
 <li>Make <code>JWK::KeyFinder</code> compatible with <code>JWT::EncodedToken</code> <a href="https://github.com/jwt/ruby-jwt/pull/663">#663</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
-<li>Your contribution here</li>
 </ul>
 
 <p><strong>Fixes and enhancements:</strong></p>
@@ -92,7 +126,6 @@
 <ul>
 <li>Ruby 3.4 to CI matrix <a href="https://github.com/jwt/ruby-jwt/pull/649">#649</a> (<a href="https://github.com/anakinj">@anakinj</a>)</li>
 <li>Add logger as development dependency <a href="https://github.com/jwt/ruby-jwt/pull/670">#670</a> (<a href="https://github.com/hieuk09">@hieuk09</a>)</li>
-<li>Your contribution here</li>
 </ul>
 
 <h2 id="v2-10-1-2024-12-26"><a href="https://github.com/jwt/ruby-jwt/tree/v2.10.1">v2.10.1</a> (2024-12-26)</h2>
@@ -375,7 +408,7 @@
 <li>Remove HMAC with nil secret from documentation <a href="https://github.com/jwt/ruby-jwt/pull/422">#422</a> (<a href="https://github.com/boardfish">boardfish</a>)</li>
 <li>Update broken link in README <a href="https://github.com/jwt/ruby-jwt/pull/420">#420</a> (<a href="https://github.com/severin">severin</a>)</li>
 <li>Add metadata for RubyGems <a href="https://github.com/jwt/ruby-jwt/pull/418">#418</a> (<a href="https://github.com/nickhammond">nickhammond</a>)</li>
-<li>Fixed a typo about class name  <a href="https://github.com/jwt/ruby-jwt/pull/417">#417</a> (<a href="https://github.com/mai-f">mai-f</a>)</li>
+<li>Fixed a typo about class name <a href="https://github.com/jwt/ruby-jwt/pull/417">#417</a> (<a href="https://github.com/mai-f">mai-f</a>)</li>
 <li>Fix references for v2.2.3 on CHANGELOG <a href="https://github.com/jwt/ruby-jwt/pull/416">#416</a> (<a href="https://github.com/vyper">vyper</a>)</li>
 <li>Raise IncorrectAlgorithm if token has no alg header <a href="https://github.com/jwt/ruby-jwt/pull/411">#411</a> (<a href="https://github.com/bouk">bouk</a>)</li>
 </ul>
@@ -387,7 +420,7 @@
 <p><strong>Implemented enhancements:</strong></p>
 
 <ul>
-<li>Verify algorithm before evaluating keyfinder  <a href="https://github.com/jwt/ruby-jwt/issues/343">#343</a></li>
+<li>Verify algorithm before evaluating keyfinder <a href="https://github.com/jwt/ruby-jwt/issues/343">#343</a></li>
 <li>Why jwt depends on json &lt; 2.0 ? <a href="https://github.com/jwt/ruby-jwt/issues/179">#179</a></li>
 <li>Support for JWK in-lieu of rsa_public <a href="https://github.com/jwt/ruby-jwt/issues/158">#158</a></li>
 <li>Fix rspec <code>raise_error</code> warning <a href="https://github.com/jwt/ruby-jwt/pull/413">#413</a> (<a href="https://github.com/excpt">excpt</a>)</li>
@@ -541,7 +574,7 @@
 <ul>
 <li>Use iat_leeway option <a href="https://github.com/jwt/ruby-jwt/issues/273">#273</a></li>
 <li>Use of global state in latest version breaks thread safety of JWT.decode <a href="https://github.com/jwt/ruby-jwt/issues/268">#268</a></li>
-<li>JSON support  <a href="https://github.com/jwt/ruby-jwt/issues/246">#246</a></li>
+<li>JSON support <a href="https://github.com/jwt/ruby-jwt/issues/246">#246</a></li>
 <li>Change the Github homepage URL to https <a href="https://github.com/jwt/ruby-jwt/pull/301">#301</a> (<a href="https://github.com/ekohl">ekohl</a>)</li>
 <li>Fix Salt length for conformance with PS family specification. <a href="https://github.com/jwt/ruby-jwt/pull/300">#300</a> (<a href="https://github.com/tobypinder">tobypinder</a>)</li>
 <li>Add support for Ruby 2.6 <a href="https://github.com/jwt/ruby-jwt/pull/299">#299</a> (<a href="https://github.com/bustikiller">bustikiller</a>)</li>
@@ -1019,8 +1052,8 @@
 <ul>
 <li>Release 1.4.0 <a href="https://github.com/jwt/ruby-jwt/pull/64">#64</a> (<a href="https://github.com/excpt">excpt</a>)</li>
 <li>Update README.md and remove dead code <a href="https://github.com/jwt/ruby-jwt/pull/63">#63</a> (<a href="https://github.com/excpt">excpt</a>)</li>
-<li>Add  &#39;iat/ aud/ sub/ jti&#39;  support for ruby-jwt <a href="https://github.com/jwt/ruby-jwt/pull/62">#62</a> (<a href="https://github.com/ZhangHanDong">ZhangHanDong</a>)</li>
-<li>Add  &#39;iss&#39;  support for ruby-jwt <a href="https://github.com/jwt/ruby-jwt/pull/61">#61</a> (<a href="https://github.com/ZhangHanDong">ZhangHanDong</a>)</li>
+<li>Add &#39;iat/ aud/ sub/ jti&#39; support for ruby-jwt <a href="https://github.com/jwt/ruby-jwt/pull/62">#62</a> (<a href="https://github.com/ZhangHanDong">ZhangHanDong</a>)</li>
+<li>Add &#39;iss&#39; support for ruby-jwt <a href="https://github.com/jwt/ruby-jwt/pull/61">#61</a> (<a href="https://github.com/ZhangHanDong">ZhangHanDong</a>)</li>
 <li>Clarify .encode API in README <a href="https://github.com/jwt/ruby-jwt/pull/60">#60</a> (<a href="https://github.com/jbodah">jbodah</a>)</li>
 </ul>
 
@@ -1234,9 +1267,9 @@
 </div></div>
 
       <div id="footer">
-  Generated on Thu May  1 16:21:28 2025 by
+  Generated on Mon Jul 14 13:11:18 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.37 (ruby-3.4.3).
+  0.9.37 (ruby-3.4.4).
 </div>
 
     </div>
